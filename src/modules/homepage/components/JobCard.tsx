@@ -1,5 +1,4 @@
 import React from "react";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 interface JobCardProps {
@@ -16,13 +15,10 @@ interface JobCardProps {
 }
 
 const JobCard: React.FC<JobCardProps> = ({
-  id,
   title,
   employmentType,
   salary,
   location,
-  isBookmarked = false,
-  onBookmarkToggle,
 }) => {
   const formatSalary = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -46,11 +42,6 @@ const JobCard: React.FC<JobCardProps> = ({
     }
   };
 
-  const handleBookmarkClick = () => {
-    if (onBookmarkToggle) {
-      onBookmarkToggle(id);
-    }
-  };
 
   return (
     <article className="relative bg-white rounded-lg p-6 shadow-sm hover:shadow-md hover:cursor-pointer transition-all duration-300 border border-gray-100 overflow-hidden group">
@@ -63,13 +54,6 @@ const JobCard: React.FC<JobCardProps> = ({
           <h3 className="text-lg font-semibold text-gray-900 leading-tight group-hover:text-gray-800 transition-colors duration-300">
             {title}
           </h3>
-          <button
-            onClick={handleBookmarkClick}
-            className="text-gray-400 hover:text-blue-500 hover:cursor-pointer transition-colors duration-200 p-1"
-            aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
-          >
-            <BookmarkBorderIcon className="w-5 h-5" />
-          </button>
         </header>
 
         <div className="space-y-3">
