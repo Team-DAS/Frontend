@@ -8,16 +8,11 @@ import SocialAuthButtons from "./SocialAuthButtons";
 import PrimaryButton from "@/shared/ui/PrimaryButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useRegister } from "../hooks/useRegister";
 
-interface RegistrationFormProps {
-  onSubmit: (data: RegistrationFormData) => void;
-  isLoading?: boolean;
-}
+const RegistrationForm: React.FC = () => {
+  const { register: doRegister, loading, error, success } = useRegister();
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({
-  onSubmit,
-  isLoading = false,
-}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -30,7 +25,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
-      accountType: "candidate",
+      accountType: "FREELANCER",
       agreeToTerms: false,
     },
   });
@@ -39,7 +34,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
 
   const handleSocialAuth = (provider: "linkedin" | "google") => {
     console.log(`Authenticate with ${provider}`);
-    // Implement social authentication logic
+  };
+
+  const onSubmit = async (data: RegistrationFormData) => {
+    await doRegister(data);
   };
 
   return (
@@ -58,20 +56,20 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
         <div className="flex gap-2 w-full">
         <button
           type="button"
-          onClick={() => setValue("accountType", "candidate")}
+          onClick={() => setValue("accountType", "FREELANCER")}
           className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
-            accountType === "candidate"
+            accountType === "FREELANCER"
               ? "bg-white text-gray-900 shadow-sm"
               : "text-gray-600 hover:text-gray-900"
           }`}
         >
-          👤 Candidate
+          👤 Freelancer
         </button>
         <button
           type="button"
-          onClick={() => setValue("accountType", "employer")}
+          onClick={() => setValue("accountType", "EMPLOYER")}
           className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
-            accountType === "employer"
+            accountType === "EMPLOYER"
               ? "bg-blue-600 text-white shadow-sm"
               : "text-gray-600 hover:text-gray-900"
           }`}
@@ -205,8 +203,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
         {/* Submit Button */}
         <PrimaryButton
           type="submit"
-          disabled={isSubmitting || isLoading}
-          isLoading={isSubmitting || isLoading}
+          disabled={isSubmitting || loading}
+          isLoading={isSubmitting || loading}
           loadingText="Creating Account..."
           showArrow={true}
           sx={{ width: "100%" }}

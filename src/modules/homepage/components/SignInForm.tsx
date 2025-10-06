@@ -9,18 +9,17 @@ import PrimaryButton from "@/shared/ui/PrimaryButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Link from "next/link";
+import { useAuth } from "../hooks/useAuth";
 
 interface SignInFormProps {
-  onSubmit: (data: SignInFormData) => void;
   isLoading?: boolean;
 }
 
-const SignInForm: React.FC<SignInFormProps> = ({
-  onSubmit,
-  isLoading = false,
-}) => {
+const SignInForm: React.FC<SignInFormProps> = ({ isLoading = false }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const { login, loading, error } = useAuth();
 
+  // Configuración del formulario con zod
   const {
     register,
     handleSubmit,
@@ -28,6 +27,11 @@ const SignInForm: React.FC<SignInFormProps> = ({
   } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
   });
+
+  // Acción al enviar formulario
+  const onSubmit = async (data: SignInFormData) => {
+    await login(data.email, data.password);
+  };
 
   const handleSocialAuth = (provider: "linkedin" | "google") => {
     console.log(`Authenticate with ${provider}`);
@@ -39,7 +43,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
       {/* Create Account Link */}
       <p className="text-sm text-gray-600">
         Don&apos;t have account?{" "}
-        <Link href="/account/setup" className="text-blue-600 hover:text-blue-800 underline">
+        <Link href="/auth/setup" className="text-blue-600 hover:text-blue-800 underline">
           Create Account
         </Link>
       </p>

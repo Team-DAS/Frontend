@@ -26,9 +26,9 @@ export const registrationSchema = z.object({
   confirmPassword: z
     .string()
     .min(1, "Please confirm your password"),
-  
-  accountType: z.enum(["candidate", "employer"]).refine((val) => val === "candidate" || val === "employer", "Please select an account type"),
-  
+
+  accountType: z.enum(["FREELANCER", "EMPLOYER"]).refine((val) => val === "FREELANCER" || val === "EMPLOYER", "Please select an account type"),
+
   agreeToTerms: z
     .boolean()
     .refine((val) => val === true, "You must agree to the Terms of Services"),
