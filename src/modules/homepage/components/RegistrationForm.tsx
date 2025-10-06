@@ -1,5 +1,4 @@
 "use client"
-
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +11,6 @@ import { useRegister } from "../hooks/useRegister";
 
 const RegistrationForm: React.FC = () => {
   const { register: doRegister, loading, error, success } = useRegister();
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -25,7 +23,7 @@ const RegistrationForm: React.FC = () => {
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
-      accountType: "FREELANCER",
+      accountType: "FREELANCER", // Changed default value
       agreeToTerms: false,
     },
   });
@@ -54,27 +52,27 @@ const RegistrationForm: React.FC = () => {
       <div className="bg-gray-100 p-3 rounded-lg flex flex-col items-center gap-2">
         <p className="text-sm text-gray-600">Create account as:</p>
         <div className="flex gap-2 w-full">
-        <button
-          type="button"
-          onClick={() => setValue("accountType", "FREELANCER")}
-          className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
-            accountType === "FREELANCER"
-              ? "bg-white text-gray-900 shadow-sm"
-              : "text-gray-600 hover:text-gray-900"
-          }`}
-        >
-          👤 Freelancer
-        </button>
-        <button
-          type="button"
-          onClick={() => setValue("accountType", "EMPLOYER")}
-          className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
-            accountType === "EMPLOYER"
-              ? "bg-blue-600 text-white shadow-sm"
-              : "text-gray-600 hover:text-gray-900"
-          }`}
-        >
-            🏢 Employers
+          <button
+            type="button"
+            onClick={() => setValue("accountType", "FREELANCER")} // Changed value
+            className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
+              accountType === "FREELANCER"
+                ? "bg-white text-gray-900 shadow-sm"
+                : "text-gray-600 hover:text-gray-900"
+            }`}
+          >
+            👤 FREELANCER
+          </button>
+          <button
+            type="button"
+            onClick={() => setValue("accountType", "EMPLOYER")} // Changed value
+            className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors duration-200 ${
+              accountType === "EMPLOYER"
+                ? "bg-blue-600 text-white shadow-sm"
+                : "text-gray-600 hover:text-gray-900"
+            }`}
+          >
+            🏢 EMPLOYER
           </button>
         </div>
       </div>
@@ -98,7 +96,6 @@ const RegistrationForm: React.FC = () => {
               <p className="mt-1 text-xs text-red-600">{errors.fullName.message}</p>
             )}
           </div>
-
           <div>
             <input
               {...register("username")}
@@ -232,4 +229,4 @@ const RegistrationForm: React.FC = () => {
   );
 };
 
-export default RegistrationForm; 
+export default RegistrationForm;

@@ -6,29 +6,23 @@ export const registrationSchema = z.object({
     .min(2, "Full name must be at least 2 characters")
     .max(50, "Full name must be less than 50 characters")
     .regex(/^[a-zA-Z\s]+$/, "Full name can only contain letters and spaces"),
-  
   username: z
     .string()
     .min(3, "Username must be at least 3 characters")
     .max(20, "Username must be less than 20 characters")
     .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores"),
-  
   email: z
     .string()
     .email("Please enter a valid email address")
     .min(1, "Email is required"),
-  
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter, one lowercase letter, and one number"),
-  
   confirmPassword: z
     .string()
     .min(1, "Please confirm your password"),
-
   accountType: z.enum(["FREELANCER", "EMPLOYER"]).refine((val) => val === "FREELANCER" || val === "EMPLOYER", "Please select an account type"),
-
   agreeToTerms: z
     .boolean()
     .refine((val) => val === true, "You must agree to the Terms of Services"),
@@ -42,7 +36,6 @@ export const signInSchema = z.object({
     .string()
     .email("Please enter a valid email address")
     .min(1, "Email is required"),
-  
   password: z
     .string()
     .min(1, "Password is required"),
@@ -60,7 +53,6 @@ export const resetPasswordSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters")
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter, one lowercase letter, and one number"),
-  
   confirmPassword: z
     .string()
     .min(1, "Please confirm your password"),
@@ -81,4 +73,4 @@ export type RegistrationFormData = z.infer<typeof registrationSchema>;
 export type SignInFormData = z.infer<typeof signInSchema>;
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
-export type EmailVerificationFormData = z.infer<typeof emailVerificationSchema>; 
+export type EmailVerificationFormData = z.infer<typeof emailVerificationSchema>;
