@@ -9,7 +9,6 @@ import {
   LoginResponse,
   RefreshTokenRequest,
   RefreshTokenResponse,
-  ValidateTokenResponse,
   ForgotPasswordRequest,
   ResetPasswordRequest,
   ChangePasswordRequest,
@@ -64,21 +63,6 @@ export const authService = {
     }
 
     return response.data;
-  },
-
-  /**
-   * Validar token actual
-   */
-  validateToken: async (): Promise<boolean> => {
-    const token = TokenManager.getAccessToken();
-    if (!token) return false;
-
-    try {
-      const response = await apiClient.post<ValidateTokenResponse>('/authz/validate');
-      return response.data.valid || response.data === true;
-    } catch {
-      return false;
-    }
   },
 
   /**

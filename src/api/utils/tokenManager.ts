@@ -3,6 +3,8 @@
  * Gestión segura de tokens de autenticación
  */
 
+import { UserInfo } from '../types/auth.types';
+
 const TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
 const USER_KEY = 'user_info';
@@ -49,7 +51,7 @@ export class TokenManager {
   /**
    * Guarda información del usuario
    */
-  static setUserInfo(user: any): void {
+  static setUserInfo(user: UserInfo): void {
     if (typeof window !== 'undefined') {
       localStorage.setItem(USER_KEY, JSON.stringify(user));
     }
@@ -58,7 +60,7 @@ export class TokenManager {
   /**
    * Obtiene información del usuario
    */
-  static getUserInfo(): any | null {
+  static getUserInfo(): UserInfo | null {
     if (typeof window !== 'undefined') {
       const user = localStorage.getItem(USER_KEY);
       return user ? JSON.parse(user) : null;

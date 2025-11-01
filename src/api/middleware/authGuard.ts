@@ -10,8 +10,9 @@ export const useAuthGuard = () => {
   const [authorized, setAuthorized] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const check = async () => {
-      const valid = await authService.validateToken();
+    const check = () => {
+      // Simplemente verifica si existe un token
+      const valid = authService.isAuthenticated();
       setAuthorized(valid);
     };
     check();

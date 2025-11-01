@@ -33,11 +33,6 @@ export interface UserInfo {
 
 export type UserRole = 'candidate' | 'employer' | 'admin';
 
-export interface ValidateTokenResponse {
-  valid: boolean;
-  user?: UserInfo;
-}
-
 export interface ForgotPasswordRequest {
   email: string;
 }

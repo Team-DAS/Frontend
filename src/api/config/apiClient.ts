@@ -1,12 +1,11 @@
 /**
  * API Client Configuration
- * Cliente Axios configurado con interceptores para autenticación,
- * manejo de errores y refresh token automático
+ * Cliente Axios configurado con interceptores para autenticación
+ * y refresh token automático
  */
 
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { TokenManager } from '../utils/tokenManager';
-import { ApiErrorHandler } from '../utils/errorHandler';
 
 // Base URL desde variables de entorno o fallback
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://2ed0552ec716.ngrok-free.app/api/v1';
@@ -85,7 +84,7 @@ apiClient.interceptors.response.use(
         if (typeof window !== 'undefined') {
           window.location.href = '/auth/signin';
         }
-        return Promise.reject(ApiErrorHandler.handle(error));
+        return Promise.reject(error);
       }
 
       if (isRefreshing) {
@@ -114,7 +113,7 @@ apiClient.interceptors.response.use(
         if (typeof window !== 'undefined') {
           window.location.href = '/auth/signin';
         }
-        return Promise.reject(ApiErrorHandler.handle(error));
+        return Promise.reject(error);
       }
 
       try {
@@ -150,7 +149,7 @@ apiClient.interceptors.response.use(
     }
 
     // Manejar otros errores
-    return Promise.reject(ApiErrorHandler.handle(error));
+    return Promise.reject(error);
   }
 );
 

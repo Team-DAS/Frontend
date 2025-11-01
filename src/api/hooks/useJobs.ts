@@ -6,7 +6,7 @@
 import { useState, useCallback } from 'react';
 import { jobsService } from '../services/jobs.service';
 import { Job, JobSearchParams } from '../types/job.types';
-import { ApiError, PaginatedResponse } from '../types/common.types';
+import { PaginatedResponse } from '../types/common.types';
 
 export const useJobs = () => {
   const [loading, setLoading] = useState(false);
@@ -22,9 +22,8 @@ export const useJobs = () => {
       setJobs(response.data);
       setPagination(response.pagination);
       return response;
-    } catch (err) {
-      const apiError = err as ApiError;
-      setError(apiError.message);
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.message || 'Error al obtener trabajos');
       throw err;
     } finally {
       setLoading(false);
@@ -39,9 +38,8 @@ export const useJobs = () => {
       setJobs(response.data);
       setPagination(response.pagination);
       return response;
-    } catch (err) {
-      const apiError = err as ApiError;
-      setError(apiError.message);
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.message || 'Error al buscar trabajos');
       throw err;
     } finally {
       setLoading(false);
@@ -55,9 +53,8 @@ export const useJobs = () => {
       const response = await jobsService.getFeaturedJobs(limit);
       setJobs(response);
       return response;
-    } catch (err) {
-      const apiError = err as ApiError;
-      setError(apiError.message);
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.message || 'Error al obtener trabajos destacados');
       throw err;
     } finally {
       setLoading(false);
@@ -69,9 +66,8 @@ export const useJobs = () => {
       setLoading(true);
       setError(null);
       return await jobsService.applyToJob({ jobId, coverLetter, resumeUrl });
-    } catch (err) {
-      const apiError = err as ApiError;
-      setError(apiError.message);
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.message || 'Error al aplicar al trabajo');
       throw err;
     } finally {
       setLoading(false);
@@ -87,9 +83,8 @@ export const useJobs = () => {
       } else {
         return await jobsService.addToFavorites(jobId);
       }
-    } catch (err) {
-      const apiError = err as ApiError;
-      setError(apiError.message);
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.message || 'Error al actualizar favorito');
       throw err;
     } finally {
       setLoading(false);
